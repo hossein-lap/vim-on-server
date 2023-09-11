@@ -1,15 +1,20 @@
 set nocompatible
 filetype off
 
-"" runtime path
-"	set runtimepath+='~/.config/vi/autoload/'
+" " runtime path
+" 	set runtimepath+='~/.vim/modules/'
 
 " Plugins
 	call plug#begin('~/.vim/modules/')
-		" Linter
-		Plug 'vim-syntastic/syntastic'
-		" Auto completion
-		Plug 'hossein-lap/AutoComplPop'
+		"" Linter
+			Plug 'vim-syntastic/syntastic'
+		"" Auto completion
+			Plug 'hossein-lap/AutoComplPop'
+		"" comment
+			Plug 'tpope/vim-commentary'
+			" Plug 'vim-scripts/BlockComment.vim'
+		"" colorscheme
+			Plug 'hossein-lap/vim-hybrid'
 	call plug#end()
 
 
@@ -54,7 +59,7 @@ syntax on
 	set wildignore=*.swp,*.bak,*.pyc
 	set novisualbell
 	set noerrorbells
-	set spelllang=en_us
+	set spelllang=en_us,de
 	set tabstop=4
 	set softtabstop=4
 	set shiftwidth=4
@@ -184,8 +189,9 @@ syntax on
 		autocmd FileType haskell,lua          let b:comment_leader = '--'
 		autocmd FileType tex,plaintex         let b:comment_leader = '%'
 		autocmd FileType nroff                let b:comment_leader = '\"'
-		noremap <silent> - :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
-		noremap <silent> + :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
+"		noremap <silent> - :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
+"		noremap <silent> + :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
+
 
 	" autopair
 		inoremap "  ""<Left>
