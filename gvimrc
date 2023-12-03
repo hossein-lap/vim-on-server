@@ -1,6 +1,7 @@
 set number
 set signcolumn=yes
 set ls=2
+set termguicolors
 set background=dark
-colorscheme hybrid
-set guifont=Liberation\ Mono\ 15
+colorscheme solarized
+set guifont=Source\ Code\ Pro\ Medium\ 15
