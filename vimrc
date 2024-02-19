@@ -11,11 +11,11 @@ filetype off
 			Plug 'junegunn/fzf.vim'
 		" Linter
 			Plug 'vim-syntastic/syntastic'
-		"" Auto completion
-			" Plug 'hossein-lap/AutoComplPop'
+		" Auto completion
+			Plug 'hossein-lap/vim-auto-popmenu'
+			Plug 'hossein-lap/vim-dict'
 		" comment
 			Plug 'tpope/vim-commentary'
-			" Plug 'vim-scripts/BlockComment.vim'
 		" colorscheme
 			Plug 'hossein-lap/vim-hybrid'
 			Plug 'hossein-lap/vim-256noir'
@@ -71,7 +71,7 @@ syntax on
 	set fillchars+=vert:\¦
 	set wildmenu             " popup menu
 	set wildmode=full        " popup style
-	set foldmethod=syntax    " code folding
+	set foldmethod=indent    " code folding
 	set foldlevel=99
 	" set foldenable
 	set showcmd              " show enterd key
@@ -86,8 +86,8 @@ syntax on
 	set updatetime=20000     " write to swapfile every 30 sec when I'm idle
 	set hidden
 	set list
-	set listchars=tab:›\ 
-	set laststatus=0
+	set listchars=tab:›\
+	set laststatus=2
 	set incsearch
 
 " abbreviation
@@ -116,31 +116,43 @@ syntax on
 
 	hi! ErrorMsg              ctermfg=black      ctermbg=darkred    cterm=NONE
 	hi! SyntasticError        ctermfg=black      ctermbg=darkred    cterm=NONE
-	hi! SyntasticErrorSign    ctermfg=darkred    ctermbg=NONE       cterm=NONE
+	hi! SyntasticErrorSign    ctermfg=darkred    ctermbg=NONE       cterm=bold
 	hi! SyntasticWarning      ctermfg=black      ctermbg=darkyellow cterm=NONE
 	hi! SyntasticWarningSign  ctermfg=darkyellow ctermbg=NONE       cterm=NONE
 	hi! SyntasticStyleError   ctermfg=red        ctermbg=NONE       cterm=NONE
 	hi! SyntasticStyleWarning ctermfg=blue       ctermbg=NONE       cterm=NONE
 
-	" hi SpellBad ctermfg=NONE ctermbg=red 
-	" hi SpellCap ctermfg=NONE ctermbg=blue 
-	" highlight! SyntasticErrorSymbol ctermbg=NONE ctermfg=red 
-	" highlight! SyntasticErrorLine ctermfg=red ctermbg=NONE 
-	" hi! SyntasticWarning ctermfg=yellow   ctermbg=NONE 
-	" hi! SyntasticInfo    ctermfg=yellow   ctermbg=NONE 
-	" hi! SyntasticHint    ctermfg=yellow ctermbg=NONE 
-	" hi! SyntasticWarningLine       ctermfg=NONE ctermbg=NONE 
-	" hi! SyntasticErrorLine         ctermfg=NONE ctermbg=NONE 
-	" hi! SyntasticErrorSignUnderline      ctermfg=darkred ctermbg=black 
-	" hi! SyntasticWarningSignUnderline    ctermfg=darkyellow ctermbg=black 
-	" hi! SyntasticErrorUnderline    ctermfg=NONE ctermbg=NONE 
-	" hi! SyntasticWarningUnderline  ctermfg=NONE ctermbg=NONE 
-	" hi! SyntasticErrorSignTex      ctermfg=NONE ctermbg=NONE 
-	" hi! SyntasticWarningSignTex    ctermfg=NONE ctermbg=NONE 
-	" hi! SyntasticErrorSignOffset   ctermfg=NONE ctermbg=NONE 
-	" hi! SyntasticWarningSignOffset ctermfg=NONE ctermbg=NONE 
+	" hi SpellBad ctermfg=NONE ctermbg=red
+	" hi SpellCap ctermfg=NONE ctermbg=blue
+	" highlight! SyntasticErrorSymbol ctermbg=NONE ctermfg=red
+	" highlight! SyntasticErrorLine ctermfg=red ctermbg=NONE
+	" hi! SyntasticWarning ctermfg=yellow   ctermbg=NONE
+	" hi! SyntasticInfo    ctermfg=yellow   ctermbg=NONE
+	" hi! SyntasticHint    ctermfg=yellow ctermbg=NONE
+	" hi! SyntasticWarningLine       ctermfg=NONE ctermbg=NONE
+	" hi! SyntasticErrorLine         ctermfg=NONE ctermbg=NONE
+	" hi! SyntasticErrorSignUnderline      ctermfg=darkred ctermbg=black
+	" hi! SyntasticWarningSignUnderline    ctermfg=darkyellow ctermbg=black
+	" hi! SyntasticErrorUnderline    ctermfg=NONE ctermbg=NONE
+	" hi! SyntasticWarningUnderline  ctermfg=NONE ctermbg=NONE
+	" hi! SyntasticErrorSignTex      ctermfg=NONE ctermbg=NONE
+	" hi! SyntasticWarningSignTex    ctermfg=NONE ctermbg=NONE
+	" hi! SyntasticErrorSignOffset   ctermfg=NONE ctermbg=NONE
+	" hi! SyntasticWarningSignOffset ctermfg=NONE ctermbg=NONE
 	" set signcolumn=number
 	" highlight link SyntasticError SpellBad
+
+" statusbar
+	set laststatus=2       " show status line
+	set statusline+=%f     " filename
+	set statusline+=\      " blank space
+	set statusline+=%m     " modified symbl
+	set statusline+=\      " blank space
+	set statusline+=%r     " read-only symbl
+	set statusline+=%=     " separator
+	set statusline+=%{&ff} " EOL char
+	set statusline+=\      " blank space
+	set statusline+=%y     " filetype
 
 " linter
 	set statusline+=%#warningmsg#
@@ -152,118 +164,101 @@ syntax on
 	let g:syntastic_style_error_symbol = '~>'
 	let g:syntastic_style_warning_symbol = '~>'
 	let g:syntastic_always_populate_loc_list = 1
-	let g:syntastic_auto_loc_list = 0
+	let g:syntastic_auto_loc_list = 1
 	let g:syntastic_check_on_open = 1
 	let g:syntastic_check_on_wq = 0
 	let g:syntastic_enable_balloons = 1
 	" au FileType sh let b:syntastic_checkers = ["checkbashisms"]
 
 " auto complation
-	set complete+=i
-	set complete+=d
-	set complete+=kspell
-	set completeopt=menuone,popup,noinsert  " always show popup menu
-	" set completeopt+=menuone
-	" set completeopt+=noinsert
-	let g:mucomplete#completion_delay = 1
-	autocmd FileType c,cpp,java 
-			\set formatoptions+=ro
-	autocmd FileType c,cpp 
-			\set omnifunc=ccomplete#Complete
+	" let g:apc_cr_confirm = 0
+	let g:apc_enable_ft = {
+		\'text':1,
+		\'markdown':1,
+		\'lua':1,
+		\'go':1,
+		\'c':1,
+		\'python':1,
+	\ } " This will overwite the default filetypes
+	" source for dictionary, current or other loaded buffers, see ':help cpt'
+	set cpt=.,k,w,b,d                      " buffers, keyword, windows
+	set completeopt=menu,menuone,noinsert  " don't select the first item
+	set shortmess+=c                       " suppress annoy messages
+	" dictionary
+		let g:vim_dict_config = {'html':'html,javascript,css', 'markdown':'text'}
 
 " keybind
 	let mapleader=' '  " change the <localleader> Key
 	let maplocalleader='\' " change the <leader> Key
-	" " to system clipboard
-	" 	xnoremap <silent> <leader>y "+Y
-	" 	nnoremap <silent> <leader>y "+Y
-	" 	nnoremap <silent> <leader>P "+p
-	" 	xnoremap <silent> <leader>p "_dP
-	" 	nnoremap <silent> <leader>d "_d
-	" 	vnoremap <silent> <leader>d "_d
+	" to system clipboard
+		vnoremap <silent> <leader>y "+Y
+		nnoremap <silent> <leader>y "+Y
+		nnoremap <silent> <leader>P "+p
+		vnoremap <silent> <leader>p "_dP
+		nnoremap <silent> <leader>d "_d
+		vnoremap <silent> <leader>d "_d
+	" mg keybinds
+		nnoremap <silent> <C-x><C-s> :w!<CR>
+		nnoremap <silent> <C-x><C-c> :qa!<CR>
 	" buffers
-		nnoremap <silent> ]b :bnext<CR>
-		nnoremap <silent> [b :bprevious<CR>
+		nnoremap <silent> <leader>bn :bnext<CR>
+		nnoremap <silent> <leader>bp :bprevious<CR>
 	" location-list
 		nnoremap <silent> <C-j> :lnext<CR>zz
 		nnoremap <silent> <C-k> :lprev<CR>zz
 	" quickfix-list
-		nnoremap <silent> <C-n> :cnext<CR>zz
-		nnoremap <silent> <C-p> :cprev<CR>zz
+		nnoremap <silent> <C-l> :cnext<CR>zz
+		nnoremap <silent> <C-h> :cprev<CR>zz
 	" fuzzy finder
 		noremap <silent> <leader>pf :Files<CR>
 		noremap <silent> <leader>gf :GFiles<CR>
 	" spell check
-		nmap <leader>ss  :setlocal spell!<CR>
+		nmap <leader>ss :setlocal spell!<CR>
 	" write with sudo
 		cmap WW w !sudo tee % > /dev/null
 	" comment
-		" autocmd FileType sh,ruby,python,conf,make,yaml,zsh,csh,toml,rmd 
-		" 	\ let b:comment_leader = '#'
-		" autocmd FileType c,cpp,java,scala,json,go,rust 
-		" 	\ let b:comment_leader = '//'
-		" autocmd FileType vim,vifm             let b:comment_leader = '"'
-		" autocmd FileType haskell,lua          let b:comment_leader = '--'
-		" autocmd FileType tex,plaintex         let b:comment_leader = '%'
-		" autocmd FileType nroff                let b:comment_leader = '\"'
-		"" noremap <silent> - :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
-		"" noremap <silent> + :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
+		" replaced with a plugin
 
-
-	" autopair
-		inoremap "  ""<Left>
-		inoremap `  ``<Left>
-		inoremap '  ''<Left>
-		inoremap (  ()<Left>
-		inoremap [  []<Left>
-		inoremap {  {}<Left>
-		au FileType html,xml inoremap <  <><Left>
-
-		augroup autopair_undo
-			au FileType vim,text iu `
-			au FileType vim,text iu '
-			au FileType vim      iu "
-		augroup END
-
-		" vim indentaion
-			au FileType vim set foldmethod=indent    " code folding
+" vim indentaion
+	au FileType vim set foldmethod=indent    " code folding
 
 " execute
+	let g:triggercmd = "term"
 	" global
 		" makefile
-			au FileType * nnoremap <localleader>cc :!make<CR>
-			au FileType * nnoremap <localleader>ca :!make all<CR>
-			au FileType * nnoremap <localleader>cf :!make force<CR>
-			au FileType * nnoremap <localleader>cb :!make build<CR>
+			au FileType * nnoremap <localleader>cc :exe g:triggercmd.'make'<CR>
+			au FileType * nnoremap <localleader>ca :exe g:triggercmd.'make all'<CR>
+			au FileType * nnoremap <localleader>cf :exe g:triggercmd.'make force'<CR>
+			au FileType * nnoremap <localleader>cb :exe g:triggercmd.'make build'<CR>
 		" git
-			au FileType * nnoremap <localleader>gs :!git status -s<CR>
-			au FileType * nnoremap <localleader>gl :!git log --oneline --stat --graph --all<CR>
-			au FileType * nnoremap <localleader>ga :!git add %<CR>
+			au FileType * nnoremap <localleader>gs :exe g:triggercmd.'git status -s'<CR>
+			au FileType * nnoremap <localleader>gl :exe g:triggercmd.'git log --oneline --stat --graph --all'<CR>
+			au FileType * nnoremap <localleader>ga :exe g:triggercmd.'git add %'<CR>
 	" c
-		autocmd FileType c nnoremap <localleader>fe :!./%:r<CR>
-		autocmd FileType c nnoremap <localleader>fw :!gcc -Wall %:r.c -o %:r<CR>
-		autocmd FileType c nnoremap <localleader>fq :!gcc -Wall %:r.c && ./%:r<CR>
+		autocmd FileType c nnoremap <localleader>fq :exe g:triggercmd.'./%:r'<CR>
+		autocmd FileType c nnoremap <localleader>fe :exe g:triggercmd.'gcc -Wall %:r.c -o %:r'<CR>
+		autocmd FileType c nnoremap <localleader>fw :exe g:triggercmd.'gcc -Wall %:r.c && ./%:r'<CR>
 		" autocmd FileType c nnoremap <localleader>fq :cgetexpr system('gcc -Wall % -o %:r')<CR>
 	" cpp
-		autocmd FileType cpp nnoremap <localleader>fe :!./%:r<CR>
-		autocmd FileType cpp nnoremap <localleader>fw :!g++ -Wall % -o %:r<CR>
-		autocmd FileType cpp nnoremap <localleader>fq :!g++ -Wall % -o %:r && ./%:r<CR>
+		autocmd FileType cpp nnoremap <localleader>fq :exe g:triggercmd.'./%:r'<CR>
+		autocmd FileType cpp nnoremap <localleader>fe :exe g:triggercmd.'g++ -Wall % -o %:r'<CR>
+		autocmd FileType cpp nnoremap <localleader>fw :exe g:triggercmd.'g++ -Wall % -o %:r && ./%:r'<CR>
 	" lua
-		autocmd FileType lua nnoremap <localleader>fe :!./%<CR>
-		autocmd FileType lua nnoremap <localleader>fw :!lua5.4 %<CR>
-		" autocmd FileType lua nnoremap <localleader>fq :!luac %<CR>
+		autocmd FileType lua nnoremap <localleader>fq :exe g:triggercmd.'./%'<CR>
+		autocmd FileType lua nnoremap <localleader>fe :exe g:triggercmd.'lua5.4 %'<CR>
+		" autocmd FileType lua nnoremap <localleader>fw :exe g:triggercmd.'luac %'<CR>
 	" python
-		autocmd FileType python nnoremap <localleader>fe :!./%<CR>
-		autocmd FileType python nnoremap <localleader>fw :!python %<CR>
-		" autocmd FileType python nnoremap <localleader>fq :!python %<CR>
+		autocmd FileType python nnoremap <localleader>fq:!./%<CR>
+		autocmd FileType python nnoremap <localleader>fe:!python %<CR>
+		" autocmd FileType python nnoremap <localleader>fw:!python %<CR>
 	" go
-		autocmd FileType go nnoremap <localleader>fe :!./%:r<CR>
-		autocmd FileType go nnoremap <localleader>fw :!go build %<CR>
-		autocmd FileType go nnoremap <localleader>fq :!go build % && ./%:r<CR>
+		autocmd FileType go nnoremap <localleader>fq :exe g:triggercmd.'./%:r'<CR>
+		autocmd FileType go nnoremap <localleader>fe :exe g:triggercmd.'go build %'<CR>
+		autocmd FileType go nnoremap <localleader>fw :exe g:triggercmd.'go build % && ./%:r'<CR>
 	" shell
-		autocmd FileType sh nnoremap <localleader>fe :!./%<CR>
-		autocmd FileType sh nnoremap <localleader>fw :!bash %<CR>
-		autocmd FileType sh nnoremap <localleader>fq :!dash %<CR>
+		autocmd FileType sh nnoremap <localleader>fe :exe g:triggercmd.'./%'<CR>
+		autocmd FileType sh nnoremap <localleader>fw :exe g:triggercmd.'bash %'<CR>
+		autocmd FileType sh nnoremap <localleader>fq :exe g:triggercmd.'dash %'<CR>
 	" latex
 	" groff
 	" markdown
