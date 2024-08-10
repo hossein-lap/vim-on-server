@@ -55,10 +55,10 @@ syntax on
 " options
 	set signcolumn=auto
 	set encoding=utf-8
-	set nonumber
+	set number
 	set fileformat=unix
 	set history=1000
-	set undolevels=1000
+	set undofile undodir=~/.vim/undo undolevels=1000
 	set wildignore=*.swp,*.bak,*.pyc
 	set novisualbell
 	set noerrorbells
@@ -71,7 +71,7 @@ syntax on
 	set fillchars+=vert:\¦
 	set wildmenu             " popup menu
 	set wildmode=full        " popup style
-	set foldmethod=indent    " code folding
+	set foldmethod=marker    " code folding
 	set foldlevel=99
 	" set foldenable
 	set showcmd              " show enterd key
@@ -86,7 +86,7 @@ syntax on
 	set updatetime=20000     " write to swapfile every 30 sec when I'm idle
 	set hidden
 	set list
-	set listchars=tab:›\
+	set listchars=tab:›\ 
 	set laststatus=2
 	set incsearch
 
@@ -144,15 +144,22 @@ syntax on
 
 " statusbar
 	set laststatus=2       " show status line
-	set statusline+=%f     " filename
+	set statusline=        " blank space
+	set statusline+=\      " blank space
+	set statusline+=%.30F  " filename
 	set statusline+=\      " blank space
 	set statusline+=%m     " modified symbl
 	set statusline+=\      " blank space
 	set statusline+=%r     " read-only symbl
 	set statusline+=%=     " separator
+	set statusline+=\ \    " blank spaces
+	set statusline+=%c:    " filename
+	set statusline+=%l/%L  " blank spaces
+	set statusline+=\ \    " blank spaces
 	set statusline+=%{&ff} " EOL char
+	set statusline+=\ \    " blank spaces
+	set statusline+=%{&ft} " EOL char
 	set statusline+=\      " blank space
-	set statusline+=%y     " filetype
 
 " linter
 	set statusline+=%#warningmsg#
