@@ -56,6 +56,7 @@ syntax on
 	set signcolumn=auto
 	set encoding=utf-8
 	set number
+	set relativenumber
 	set fileformat=unix
 	set history=1000
 	set undofile undodir=~/.vim/undo undolevels=1000
@@ -86,9 +87,11 @@ syntax on
 	set updatetime=20000     " write to swapfile every 30 sec when I'm idle
 	set hidden
 	set list
-	set listchars=tab:›\ 
+	" set listchars=tab:›\ 
+	set listchars=tab:\|\ 
 	set laststatus=2
 	set incsearch
+	set colorcolumn=80
 
 " abbreviation
 	ab fsf Free Software Foundation
@@ -109,9 +112,9 @@ syntax on
 	hi! Search     ctermbg=NONE
 	hi! Visual     ctermfg=black
 
-	hi! PmenuSel    ctermfg=magenta  ctermbg=black    cterm=NONE
-	hi! Pmenu       ctermfg=black    ctermbg=magenta  cterm=NONE
-	" hi! link Pmenu String
+	hi! PmenuSel        ctermfg=gray     ctermbg=black    cterm=NONE
+	hi! Pmenu           ctermfg=black    ctermbg=gray     cterm=NONE
+	hi! link StatusLine ctermfg=green    ctermbg=black    cterm=NONE
 	" hi! link PmenuSel Search
 
 	hi! ErrorMsg              ctermfg=black      ctermbg=darkred    cterm=NONE
@@ -155,9 +158,9 @@ syntax on
 	set statusline+=\ \    " blank spaces
 	set statusline+=%c:    " filename
 	set statusline+=%l/%L  " blank spaces
-	set statusline+=\ \    " blank spaces
+	set statusline+=\ \ \  " blank spaces
 	set statusline+=%{&ff} " EOL char
-	set statusline+=\ \    " blank spaces
+	set statusline+=\ \ \  " blank spaces
 	set statusline+=%{&ft} " EOL char
 	set statusline+=\      " blank space
 
@@ -230,7 +233,7 @@ syntax on
 	au FileType vim set foldmethod=indent    " code folding
 
 " execute
-	let g:triggercmd = "term"
+	let g:triggercmd = "term "
 	" global
 		" makefile
 			au FileType * nnoremap <localleader>cc :exe g:triggercmd.'make'<CR>
