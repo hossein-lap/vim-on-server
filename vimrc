@@ -55,7 +55,7 @@ syntax on
 " options
 	set signcolumn=auto
 	set encoding=utf-8
-	set number
+	set number relativenumber
 	set fileformat=unix
 	set history=1000
 	set undofile undodir=~/.vim/undo undolevels=1000
@@ -71,7 +71,7 @@ syntax on
 	set fillchars+=vert:\¦
 	set wildmenu             " popup menu
 	set wildmode=full        " popup style
-	set foldmethod=marker    " code folding
+	set foldmethod=manual    " code folding
 	set foldlevel=99
 	" set foldenable
 	set showcmd              " show enterd key
@@ -86,9 +86,22 @@ syntax on
 	set updatetime=20000     " write to swapfile every 30 sec when I'm idle
 	set hidden
 	set list
-	set listchars=tab:›\ 
+	" set listchars=tab:›\ 
+	set listchars=tab:│\ 
 	set laststatus=2
 	set incsearch
+
+" save sessions
+    function! SessionSave()
+      let l:filepath = expand('%:p:h')
+      let l:session_file = l:filepath . '/session.vim'
+      if !&readonly
+        execute 'mksession! ' . l:session_file
+      endif
+    endfunction
+    command! SaveSession call SessionSave()
+    autocmd BufWritePost * SaveSession
+
 
 " abbreviation
 	ab fsf Free Software Foundation
@@ -99,13 +112,16 @@ syntax on
 " " command-mode abbreviation
 " 	cmap W w
 
+" colorscheme lunaperche
 " colorscheme
+	hi! StatusLine ctermfg=white    ctermbg=black    cterm=NONE
 	hi! SignColumn ctermfg=NONE     ctermbg=NONE
 	hi! String     ctermfg=yellow   ctermbg=NONE
 	hi! Folded     ctermfg=blue     ctermbg=NONE
 	hi! SpecialKey ctermfg=darkgray ctermbg=NONE
 	hi! VertSplit  ctermfg=white    ctermbg=NONE
 	hi! MatchParen ctermfg=white    ctermbg=black    cterm=underline
+	hi! SpecialKey cterm=NONE
 	hi! Search     ctermbg=NONE
 	hi! Visual     ctermfg=black
 
